@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.seckill.dao.SeckillDao">
+    <!--为DAO接口方法提供SQL语句-->
+    <update id="reduceNumber">
+        UPDATE
+        seckill.seckill
+        SET  NUMBER =NUMBER -1
+        WHERE seckill_id=#{seckill_id}
+        and start_time<![CDATA[<=]]>#{killtime}
+        and end_time >= #{killtime}
+        and NUMBER >0;
+    </update>
+    <select id="queryById" resultType="org.seckill.entity.Seckill" parameterType="long">
+        SELECT *
+        from seckill.seckill
+        where seckill_id=#{seckillId}
+    </select>
+    <select id="queryAll" resultType="org.seckill.entity.Seckill" parameterType="int">
+         SELECT *
+         from Seckill
+         ORDER by create_time DESC
+         limit #{offset},#{limit}
+         /*
+         limit用法 表示返回查询的行数 接受两个整型数据的输入
+         */
+    </select>
+    <select id="getStudent" resultType="org.seckill.entity.Student">
+        SELECT *
+        FROM seckill.student
+        WHERE student.id=#{id} and student.pwd=#{pwd}
+    </select>
+</mapper>
